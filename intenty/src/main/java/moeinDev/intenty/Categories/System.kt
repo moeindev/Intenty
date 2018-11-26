@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.provider.AlarmClock
+import android.provider.CalendarContract
 import android.support.annotation.RequiresApi
 import android.support.annotation.RequiresPermission
 
@@ -74,5 +75,36 @@ class System(private val context: Context) {
     Create timer intent.
      */
 
+    //Calendar:
+    /* Add Event:
+    intent filters:
+    <intent-filter>
+        <action android:name="android.intent.action.INSERT" />
+        <data android:mimeType="vnd.android.cursor.dir/event" />
+        <category android:name="android.intent.category.DEFAULT" />
+    </intent-filter>
+     */
+    fun addCalendarEvent(title: String,location: String,begin: Long,end: Long){
+        val intent = Intent(Intent.ACTION_INSERT).apply {
+            data = CalendarContract.Events.CONTENT_URI
+            putExtra(CalendarContract.Events.TITLE, title)
+            putExtra(CalendarContract.Events.EVENT_LOCATION, location)
+            putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, begin)
+            putExtra(CalendarContract.EXTRA_EVENT_END_TIME, end)
+        }
+        if (intent.resolveActivity(context.packageManager) != null) {
+            context.startActivity(intent)
+        }
+    }
+
+    fun addCalendarEvent(intent: Intent){
+        if (intent.resolveActivity(context.packageManager) != null) {
+            context.startActivity(intent)
+        }
+    }
+    /*
+    Add event.
+     */
+    //Calendar.
 
 }
