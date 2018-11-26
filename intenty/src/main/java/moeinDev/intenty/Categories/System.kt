@@ -1,10 +1,13 @@
 package moeinDev.intenty.Categories
 
 import android.Manifest
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.provider.AlarmClock
 import android.provider.CalendarContract
+import android.provider.MediaStore
 import android.support.annotation.RequiresApi
 import android.support.annotation.RequiresPermission
 
@@ -106,5 +109,32 @@ class System(private val context: Context) {
     Add event.
      */
     //Calendar.
+
+    //Camera:
+    /*
+    Capture picture and send data to on Activity result:
+     */
+
+    fun capturePictureGiveBack(activity: Activity,requestCode: Int,saveFileLocation: Uri,saveFileName: String) {
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE).apply {
+            putExtra(MediaStore.EXTRA_OUTPUT, Uri.withAppendedPath(saveFileLocation, saveFileName))
+        }
+        if (intent.resolveActivity(context.packageManager) != null) {
+            activity.startActivityForResult(intent, requestCode)
+        }
+    }
+
+    fun captureVideoGiveBack(activity: Activity,requestCode: Int,saveFileLocation: Uri,saveFileName: String){
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE).apply {
+            putExtra(MediaStore.EXTRA_OUTPUT,Uri.withAppendedPath(saveFileLocation,saveFileName))
+        }
+        if (intent.resolveActivity(context.packageManager) != null) {
+            activity.startActivityForResult(intent, requestCode)
+        }
+    }
+    /*
+    Capture picture and send data to on Activity result.
+     */
+    //Camera.
 
 }
